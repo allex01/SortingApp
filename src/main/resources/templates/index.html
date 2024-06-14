@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Sort Array</title>
+	<script>
+		function sortArray(){
+			var array = document.getElementById("array").value;
+			fetch("/sort", {
+				method: "POST",
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: array
+			})
+			.then(response => response.text())
+			.then(data => {
+				document.getElementById("result").innerText = data;
+			})
+			.catch(error => {
+				document.getElementById("result").innerText = "Ошибка: " + error;
+			}); 
+		}
+	</script>
+	
+	<script>
+		function getSortedArray(){
+			var id = document.getElementById("sort_id").value;
+			fetch("/getSortedArray?id="+id, {
+				method: "GET",
+			})
+			.then(response => response.text())
+			.then(data => {
+				document.getElementById("result").innerText = data;
+			})
+			.catch(error => {
+				document.getElementById("result").innerText = "Ошибка: " + error;
+			}); 
+		}
+	</script>
+
+
+</head>
+<body>
+	<h1> Введите числа для сортировки </h1>
+    <form onsubmit="event.preventDefault(); sortArray();">
+        <input type="text" id="array" style="width:300px" placeholder="Введите числа через запятую"/>
+        <button type="submit">Отсортировать</button>
+    </form>
+
+<h1>Получить отсортированный массив по id сортировки:</h1>
+    <form onsubmit="event.preventDefault(); getSortedArray();">
+        <label for="sort_id">Введите Id сортировки:</label>
+        <input type="text" id="sort_id" />
+        <button type="submit">Получить массив</button>
+    </form>
+
+    <div>
+        <h2>Отсортированный массив:</h2>
+        <p id="result"></p>
+    </div>
+
+    
+</body>
+</html>
